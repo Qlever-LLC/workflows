@@ -15,7 +15,7 @@
 name: Build and push docker image
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       service:
         description: Name of the service (e.g., oada/foo)
@@ -37,15 +37,12 @@ on:
     secrets:
       github_token:
         description: GitHub API token
-        type: string
         required: true
       dockerhub_token:
         description: Dockerhub API token
-        type: string
         required: true
       snyk_token:
         description: Snyk API token
-        type: string
         required: true
 
 jobs:
