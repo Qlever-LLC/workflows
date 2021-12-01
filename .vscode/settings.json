@@ -1,0 +1,19 @@
+{
+  "cSpell.words": ["booxmedialtd", "buildx", "codeql", "elif", "Snyk"],
+  "search.exclude": {
+    "*.log": true,
+    ".DS_Store": true,
+    ".dccache": true,
+    ".history/": true,
+    ".actrc": true,
+    "act/": true
+  },
+  "files.exclude": {
+    "*.log": true,
+    ".DS_Store": true,
+    ".dccache": true,
+    ".history/": true,
+    ".actrc": true,
+    "act/": true
+  }
+}
