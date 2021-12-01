@@ -22,19 +22,16 @@ on:
         type: string
         required: false
         default: ${{ github.repository }}
+    secrets:
       dockerhub_username:
         description: Dockerhub username
-        type: string
         required: false
       dockerhub_repo:
         description: Dockerhub repository
-        type: string
         required: false
       snyk_org:
         description: Snyk organization
-        type: string
         required: false
-    secrets:
       github_token:
         description: GitHub API token
         required: true
