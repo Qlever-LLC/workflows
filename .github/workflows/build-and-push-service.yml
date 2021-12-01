@@ -151,8 +151,8 @@ jobs:
           # Name on GHCR
           GHCR_IMAGE=ghcr.io/${DOCKER_IMAGE}
           # Allow overriding DockerHub repo if different from slug?
-          if [[ "${{ secrets.docker_repo }}" ]]; then
-            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.docker_repo }}/g')
+          if [[ "${{ secrets.dockerhub_repo }}" ]]; then
+            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.dockerhub_repo }}/g')
           fi
 
           echo ::set-output name=dockerhub::${DOCKER_IMAGE}
@@ -243,8 +243,8 @@ jobs:
           # Name on GHCR
           GHCR_IMAGE=ghcr.io/${DOCKER_IMAGE}
           # Allow overriding DockerHub repo if different from slug?
-          if [[ "${{ secrets.docker_repo }}" ]]; then
-            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.docker_repo }}/g')
+          if [[ "${{ secrets.dockerhub_repo }}" ]]; then
+            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.dockerhub_repo }}/g')
           fi
 
           TAG="${GHCR_IMAGE}:edge"
