@@ -151,8 +151,8 @@ jobs:
           # Name on GHCR
           GHCR_IMAGE=ghcr.io/${DOCKER_IMAGE}
           # Allow overriding DockerHub repo if different from slug?
-          if [[ "${{ inputs.docker_repo }}" ]]; then
-            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ inputs.docker_repo }}/g')
+          if [[ "${{ secrets.docker_repo }}" ]]; then
+            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.docker_repo }}/g')
           fi
 
           echo ::set-output name=dockerhub::${DOCKER_IMAGE}
@@ -161,7 +161,7 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1.10.0
         with:
-          username: ${{ inputs.dockerhub_username }}
+          username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_token }}
 
       - name: Login to GitHub Container Registry
@@ -243,8 +243,8 @@ jobs:
           # Name on GHCR
           GHCR_IMAGE=ghcr.io/${DOCKER_IMAGE}
           # Allow overriding DockerHub repo if different from slug?
-          if [[ "${{ inputs.docker_repo }}" ]]; then
-            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ inputs.docker_repo }}/g')
+          if [[ "${{ secrets.docker_repo }}" ]]; then
+            DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.docker_repo }}/g')
           fi
 
           TAG="${GHCR_IMAGE}:edge"
@@ -258,8 +258,8 @@ jobs:
 
           echo ::set-output name=tag::${TAG}
           # Allow overriding Snyk org if different from GitHub?
-          if [[ "${{ inputs.snyk_org }}" ]]; then
-            echo ::set-output name=org::${{ inputs.snyk_org }}
+          if [[ "${{ secrets.snyk_org }}" ]]; then
+            echo ::set-output name=org::${{ secrets.snyk_org }}
           else
             echo ::set-output name=org::${OWNER}
           fi
