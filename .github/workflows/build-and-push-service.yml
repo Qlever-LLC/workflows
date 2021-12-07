@@ -222,12 +222,14 @@ jobs:
         env:
           COSIGN_PASSWORD: ${{ secrets.cosign_password }}
         run: |
-          echo "${{ steps.meta.outputs.labels }}" | \
-          tr ',' '\n' | \
-          xargs -n 1 \
-            cosign sign --key cosign.key \
-              -a "repo=${{ github.repository }}" \
-              -a "ref=${{ github.sha }}"
+          if [ -n "$CONFIG_PASSWORD" ]; then
+            echo "${{ steps.meta.outputs.labels }}" | \
+            tr ',' '\n' | \
+            xargs -n 1 \
+              cosign sign --key cosign.key \
+                -a "repo=${{ github.repository }}" \
+                -a "ref=${{ github.sha }}"
+          fi
 
       - # Temp cache fix
         # https://github.com/docker/build-push-action/issues/252
