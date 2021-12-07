@@ -210,7 +210,7 @@ jobs:
             SERVICE=${{ inputs.service }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Write signing key to disk (only needed for `cosign sign --key`)
         run: echo "${{ secrets.cosign_key }}" > cosign.key
