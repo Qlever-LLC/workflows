@@ -222,10 +222,8 @@ jobs:
         env:
           COSIGN_PASSWORD: ${{ secrets.cosign_password }}
         run: |
-          if [ -n "$CONFIG_PASSWORD" ]; then
-            echo "${{ steps.meta.outputs.tags }}" | \
-            tr ',' '\n' | \
-            xargs -n 1 \
+          if [ -n "$COSIGN_PASSWORD" ]; then
+            echo "${{ steps.meta.outputs.tags }}" | xargs -n 1 \
               cosign sign --key cosign.key \
                 -a "repo=${{ github.repository }}" \
                 -a "ref=${{ github.sha }}"
