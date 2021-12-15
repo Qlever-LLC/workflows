@@ -32,9 +32,6 @@ on:
       snyk_org:
         description: Snyk organization
         required: false
-      github_token:
-        description: GitHub API token
-        required: true
       dockerhub_token:
         description: Dockerhub API token
         required: true
@@ -177,7 +174,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.github_token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -311,7 +308,7 @@ jobs:
         with:
           inputSarifFile: ./snyk.sarif
           outputSarifFile: ./securecodewarrior.sarif
-          githubToken: ${{ secrets.github_token }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload SARIF file to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v1
