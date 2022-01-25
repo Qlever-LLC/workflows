@@ -38,6 +38,9 @@ on:
         description: NPM registry token
         required: false
 
+env:
+  token: ${{ secrets.npm_token }}
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -144,8 +147,6 @@ jobs:
       - test-no-oada
       - check
     runs-on: ubuntu-latest
-    env:
-      token: ${{ secrets.npm_token }}
     strategy:
       matrix:
         include:
