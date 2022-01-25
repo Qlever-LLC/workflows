@@ -22,6 +22,11 @@ on:
         type: string
         required: false
         default: public
+      oada:
+        description: Run an OADA Server instance for tests
+        type: boolean
+        required: false
+        default: false
     secrets:
       npm_token:
         description: NPM registry token
@@ -66,11 +71,37 @@ jobs:
             .
             !.git
 
-  test:
+  test-oada:
+    if: ${{ inputs.oada }}
     name: Run tests
+    runs-on: ubuntu-latest
     needs:
       - build
+    services:
+      oada:
+        image: ghcr.io/qlever-llc/oada:edge
+        ports:
+          - "80"
+    env:
+      DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
+      TOKEN: god
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: built
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: test # will run `yarn test` command
+
+  test-no-oada:
+    if: ${{ !inputs.oada }}
+    name: Run tests
     runs-on: ubuntu-latest
+    needs:
+      - build
+    env:
+      DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
+      TOKEN: god
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -103,7 +134,8 @@ jobs:
     needs:
       - setup
       - build
-      - test
+      - test-oada
+      - test-no-oada
       - check
     runs-on: ubuntu-latest
     steps:
