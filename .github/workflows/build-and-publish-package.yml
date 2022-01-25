@@ -144,11 +144,13 @@ jobs:
       - test-no-oada
       - check
     runs-on: ubuntu-latest
+    env:
+      token: ${{ secrets.npm_token }}
     strategy:
       matrix:
         include:
           # Publish to npm
-          - token: ${{ secrets.npm_token }}
+          - token: ${{ env.token }}
             registry: https://registry.npmjs.org/
           # Publish to GitHub Packages
           - token: ${{ github.token }}
