@@ -55,7 +55,7 @@ jobs:
       - name: Parse Ref
         id: ref
         uses: qlever-llc/workflows/actions/parse-ref@master
-      - run: echo ${{ toJSON(steps.ref.outputs) }}
+      - run: echo "${{ toJSON(steps.ref.outputs) }}"
 
   build:
     name: Build
