@@ -143,12 +143,12 @@ jobs:
       - test-no-oada
       - check
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: built
       - uses: borales/actions-yarn@v2.3.0
-        if: ${{ secrets.npm_token }}
         env:
           NPM_AUTH_TOKEN: ${{ secrets.npm_token }}
         with:
