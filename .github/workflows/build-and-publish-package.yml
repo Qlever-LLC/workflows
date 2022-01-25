@@ -55,6 +55,7 @@ jobs:
       - name: Parse Ref
         id: ref
         uses: qlever-llc/workflows/actions/parse-ref@master
+      - run: echo ${{ steps.ref.outputs }}
 
   build:
     name: Build
@@ -135,13 +136,13 @@ jobs:
 
   publish:
     name: Publish package to npm
-    if: ${{ needs.setup.outputs.release }}
     needs:
       - setup
       - build
       - test-oada
       - test-no-oada
       - check
+    if: ${{ needs.setup.outputs.release }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -159,13 +160,13 @@ jobs:
 
   publish-github:
     name: Publish package to GitHub packages
-    if: ${{ needs.setup.outputs.release }}
     needs:
       - setup
       - build
       - test-oada
       - test-no-oada
       - check
+    if: ${{ needs.setup.outputs.release }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
