@@ -38,9 +38,6 @@ on:
         description: NPM registry token
         required: false
 
-env:
-  token: ${{ secrets.npm_token }}
-
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -137,8 +134,7 @@ jobs:
               --allowSyntheticDefaultImports
 
   publish:
-    # Publish releases to npm
-    name: Publish package
+    name: Publish package to npm
     if: ${{ needs.setup.outputs.release }}
     needs:
       - setup
@@ -147,24 +143,38 @@ jobs:
       - test-no-oada
       - check
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          # Publish to npm
-          - token: ${{ env.token }}
-            registry: https://registry.npmjs.org/
-          # Publish to GitHub Packages
-          - token: ${{ github.token }}
-            registry: https://registry.npmjs.org/
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: built
       - uses: borales/actions-yarn@v2.3.0
-        if: ${{ matrix.token }}
+        if: ${{ secrets.npm_token }}
         env:
-          NPM_AUTH_TOKEN: ${{ matrix.token }}
-          NPM_REGISTRY_URL: ${{ matrix.registry }}
+          NPM_AUTH_TOKEN: ${{ secrets.npm_token }}
+        with:
+          cmd: |
+            npm publish \
+              --access ${{ inputs.access }} \
+              --tag ${{ steps.refs.output.prerelease || 'latest' }}
+
+  publish-github:
+    name: Publish package to GitHub packages
+    if: ${{ needs.setup.outputs.release }}
+    needs:
+      - setup
+      - build
+      - test-oada
+      - test-no-oada
+      - check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: built
+      - uses: borales/actions-yarn@v2.3.0
+        env:
+          NPM_AUTH_TOKEN: ${{ github.token }}
+          NPM_REGISTRY_URL: https://npm.pkg.github.com
         with:
           cmd: |
             npm publish \
