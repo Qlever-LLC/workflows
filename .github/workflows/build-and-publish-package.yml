@@ -1,0 +1,118 @@
+# Copyright 2022 Qlever LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Build and publish npm package
+
+on:
+  workflow_call:
+    inputs:
+      access:
+        description: Publish package as public or private
+        type: string
+        required: false
+        default: public
+    secrets:
+      npm_token:
+        description: NPM registry token
+        required: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.ref.outputs.version }}
+      release: ${{ steps.ref.outputs.release }}
+      major: ${{ steps.ref.outputs.major }}
+      minor: ${{ steps.ref.outputs.minor }}
+      patch: ${{ steps.ref.outputs.patch }}
+      prerelease: ${{ steps.ref.outputs.prerelease }}
+      build: ${{ steps.ref.outputs.build }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Parse Ref
+        id: ref
+        uses: ./actions/parse-ref
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install # will run `yarn install` command
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: build # will run `yarn build` command
+      - uses: actions/upload-artifact@v2
+        with:
+          name: built
+          path: |
+            .
+            !.git
+
+  test:
+    name: Run tests
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: built
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: test # will run `yarn test` command
+
+  check:
+    name: Check build output?
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: built
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: |
+            tsc \
+              --target esnext \
+              --moduleResolution node \
+              --allowSyntheticDefaultImports
+
+  publish:
+    # Publish releases to npm
+    name: Publish package
+    if: ${{ steps.ref.outputs.release }}
+    needs:
+      - setup
+      - build
+      - test
+      - check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: built
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: |
+            npm publish \
+              --access ${{ inputs.access }} \
+              --tag ${{ steps.refs.output.prerelease || 'latest' }}
