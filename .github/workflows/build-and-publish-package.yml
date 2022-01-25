@@ -30,7 +30,7 @@ on:
     secrets:
       npm_token:
         description: NPM registry token
-        required: true
+        required: false
 
 jobs:
   setup:
