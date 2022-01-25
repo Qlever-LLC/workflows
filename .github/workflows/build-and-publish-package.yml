@@ -130,7 +130,7 @@ jobs:
   publish:
     # Publish releases to npm
     name: Publish package
-    if: ${{ steps.ref.outputs.release }}
+    if: ${{ needs.setup.outputs.release }}
     needs:
       - setup
       - build
