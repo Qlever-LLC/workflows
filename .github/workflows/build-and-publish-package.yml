@@ -142,7 +142,7 @@ jobs:
       - test-oada
       - test-no-oada
       - check
-    if: ${{ needs.setup.outputs.release }}
+    if: ${{ !!needs.setup.outputs.release }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -166,7 +166,7 @@ jobs:
       - test-oada
       - test-no-oada
       - check
-    if: ${{ needs.setup.outputs.release }}
+    if: ${{ !!needs.setup.outputs.release }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
