@@ -84,7 +84,7 @@ jobs:
       oada:
         image: ghcr.io/qlever-llc/oada:edge
         env:
-          OADA_VERSION: ${{ input.oada_version || null }}
+          OADA_VERSION: ${{ inputs.oada_version || null }}
         volumes:
           # Needed for DooD
           - "/var/run/docker.sock:/var/run/docker.sock"
