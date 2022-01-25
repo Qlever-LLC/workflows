@@ -82,14 +82,14 @@ jobs:
         image: ghcr.io/qlever-llc/oada:edge
         ports:
           - "80"
-    env:
-      DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
-      TOKEN: god
     steps:
       - uses: actions/download-artifact@v2
         with:
           name: built
       - uses: borales/actions-yarn@v2.3.0
+        env:
+          DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
+          TOKEN: god
         with:
           cmd: test # will run `yarn test` command
 
@@ -104,9 +104,6 @@ jobs:
         with:
           name: built
       - uses: borales/actions-yarn@v2.3.0
-        env:
-          DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
-          TOKEN: god
         with:
           cmd: test # will run `yarn test` command
 
