@@ -88,7 +88,8 @@ jobs:
           name: built
       - uses: borales/actions-yarn@v2.3.0
         env:
-          DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
+          #DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
+          DOMAIN: http://oada
           TOKEN: god
         with:
           cmd: test # will run `yarn test` command
