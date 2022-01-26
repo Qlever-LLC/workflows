@@ -134,10 +134,10 @@ jobs:
               --allowSyntheticDefaultImports
   tests:
     runs-on: ubuntu-latest
-    if: ${{ always() && (needs.test-oada.status == 'success' || needs.test-no-oada.status == 'success') }}
     needs:
       - test-oada
       - test-no-oada
+    if: ${{ !failure() }}
     outputs:
       pass: ${{ needs.test-oada.status == 'success' || needs.test-no-oada.status == 'success' }}
     steps:
