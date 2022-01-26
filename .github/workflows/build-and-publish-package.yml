@@ -79,13 +79,15 @@ jobs:
     needs:
       - build
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
+          # service only works on linux currently
           #- macos-latest
           #- windows-latest
         node:
-          - 12
+          #- 12
           - 14
           - 16
     name: Run tests in node ${{ matrix.node }} on ${{ matrix.os }} with an OADA
@@ -120,13 +122,14 @@ jobs:
     needs:
       - build
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
-          #- macos-latest
-          #- windows-latest
+          - macos-latest
+          - windows-latest
         node:
-          - 12
+          #- 12
           - 14
           - 16
     runs-on: ${{ matrix.os}}
