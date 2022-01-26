@@ -133,15 +133,22 @@ jobs:
               --target esnext \
               --moduleResolution node \
               --allowSyntheticDefaultImports
+  tests:
+    runs-on: ubuntu-latest
+    if: ${{ always() && (needs.test-oada.status == 'success' || needs.test-no-oada.status == 'success') }}
+    needs:
+      - test-oada
+      - test-no-oada
+    outputs:
+      pass: ${{ needs.test-oada.status == 'success' || needs.test-no-oada.status == 'success' }}
 
   publish:
     name: Publish package to npm
     needs:
       - setup
       - build
-      - test-oada
-      - test-no-oada
       - check
+      - tests
     if: ${{ !!needs.setup.outputs.release }}
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -163,9 +170,8 @@ jobs:
     needs:
       - setup
       - build
-      - test-oada
-      - test-no-oada
       - check
+      - tests
     if: ${{ !!needs.setup.outputs.release }}
     runs-on: ubuntu-latest
     steps:
