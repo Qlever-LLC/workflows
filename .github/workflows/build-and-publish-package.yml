@@ -55,7 +55,6 @@ jobs:
       - name: Parse Ref
         id: ref
         uses: qlever-llc/workflows/actions/parse-ref@master
-      - run: echo "${{ toJSON(steps.ref.outputs) }}"
 
   build:
     name: Build
@@ -141,6 +140,8 @@ jobs:
       - test-no-oada
     outputs:
       pass: ${{ needs.test-oada.status == 'success' || needs.test-no-oada.status == 'success' }}
+    steps:
+      - run: echo "${{ toJSON(needs) }}"
 
   publish:
     name: Publish package to npm
