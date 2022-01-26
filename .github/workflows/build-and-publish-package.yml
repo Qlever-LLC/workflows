@@ -33,6 +33,11 @@ on:
         required: false
         # FIXME: Switch to latest once OADA is updated
         default: edge
+      publish:
+        description: Publish releases as an npm package
+        type: boolean
+        required: false
+        default: true
     secrets:
       npm_token:
         description: NPM registry token
@@ -182,7 +187,7 @@ jobs:
       - build
       - check
       - tests
-    if: ${{ needs.setup.outputs.release && !failure() }}
+    if: ${{ inputs.publish && needs.setup.outputs.release && !failure() }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -207,7 +212,7 @@ jobs:
       - build
       - check
       - tests
-    if: ${{ needs.setup.outputs.release && !failure() }}
+    if: ${{ inputs.publish && needs.setup.outputs.release && !failure() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
