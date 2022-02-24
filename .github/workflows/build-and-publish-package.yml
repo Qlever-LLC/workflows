@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: 16
           cache: yarn
@@ -111,7 +111,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: built
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: ${{ matrix.node }}
       - env:
@@ -142,7 +142,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: built
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: ${{ matrix.node }}
       - env:
@@ -160,7 +160,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: built
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: 16
       - run: |
@@ -194,7 +194,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: built
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: 16
       - env:
@@ -218,7 +218,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: built
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3.0.0
         with:
           node-version: 16
           registry-url: https://npm.pkg.github.com
