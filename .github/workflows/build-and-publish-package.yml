@@ -39,6 +39,9 @@ on:
         required: false
         default: true
     secrets:
+      oada_token:
+        description: OADA OAuth token
+        required: false
       npm_token:
         description: NPM registry token
         required: false
@@ -117,7 +120,7 @@ jobs:
       - env:
           DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
           #DOMAIN: http://oada
-          TOKEN: god
+          TOKEN: ${{ secrets.oada_token || 'god' }}
         run: yarn test
 
   # TODO: Combine this job with test-oada job?
