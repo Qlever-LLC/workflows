@@ -111,7 +111,7 @@ jobs:
         ports:
           - "80"
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: built
       - uses: actions/setup-node@v3.1.0
@@ -142,7 +142,7 @@ jobs:
           - 16
     runs-on: ${{ matrix.os}}
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: built
       - uses: actions/setup-node@v3.1.0
@@ -160,7 +160,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: built
       - uses: actions/setup-node@v3.1.0
@@ -194,7 +194,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: built
       - uses: actions/setup-node@v3.1.0
@@ -218,7 +218,7 @@ jobs:
     if: ${{ inputs.publish && needs.setup.outputs.release && !failure() }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: built
       - uses: actions/setup-node@v3.1.0
