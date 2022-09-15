@@ -164,7 +164,7 @@ jobs:
       - run: |
           yarn tsc \
             --target esnext \
-            --moduleResolution node \
+            --moduleResolution node16 \
             --allowSyntheticDefaultImports
 
   tests:
