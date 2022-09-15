@@ -91,13 +91,9 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # service only works on linux currently
-          #- macos-latest
-          #- windows-latest
         node:
-          #- 12
-          - 14
           - 16
+          - 18
     name: Run tests in node ${{ matrix.node }} on ${{ matrix.os }} with an OADA
     runs-on: ${{ matrix.os}}
     services:
