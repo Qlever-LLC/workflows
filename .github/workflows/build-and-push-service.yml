@@ -121,6 +121,8 @@ jobs:
         with:
           username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_token }}
+        # If dockerhub fails, still try to push to GHCR
+        continue-on-error: true
 
       - name: Login to GitHub Container Registry
         if: github.event_name != 'pull_request'
