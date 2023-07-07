@@ -166,11 +166,13 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Write signing key to disk (only needed for `cosign sign --key`)
+        continue-on-error: true
         run: echo "${{ secrets.cosign_key }}" > cosign.key
 
       # Sign the resulting Docker image digest except on PRs.
       # https://github.com/sigstore/cosign
       - name: Sign the published Docker image(s)
+        continue-on-error: true
         if: ${{ github.event_name != 'pull_request' }}
         env:
           COSIGN_PASSWORD: ${{ secrets.cosign_password }}
