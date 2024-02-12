@@ -75,7 +75,7 @@ jobs:
           const oada = ${{ inputs.oada}} ? {
             image: 'ghcr.io/qlever-llc/oada:edge',
             env: {
-              OADA_VERSION: ${{ inputs.oada_version }} || null,
+              OADA_VERSION: '${{ inputs.oada_version }}' || null,
             },
             // Needed for DooD
             volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ],
@@ -145,7 +145,7 @@ jobs:
           TOKEN: ${{ secrets.oada_token || 'god' }}
         run: yarn test
 
-  # TODO: Combine this job with test-oada job?
+  # TODO: Combine this job with test job?
   test-no-oada:
     if: ${{ !inputs.oada }}
     name: Run tests in node ${{ matrix.node }} on ${{ matrix.os }}
