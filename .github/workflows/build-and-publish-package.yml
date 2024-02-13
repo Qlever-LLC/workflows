@@ -64,7 +64,7 @@ jobs:
       - name: Parse Ref
         id: ref
         uses: qlever-llc/workflows/actions/parse-ref@master
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: stuff
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
@@ -136,7 +136,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: built
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - env:
@@ -166,7 +166,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: built
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
       - env:
@@ -184,7 +184,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: built
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - run: |
@@ -218,7 +218,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: built
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - env:
@@ -242,7 +242,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: built
-      - uses: actions/setup-node@v4.0.2
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com
