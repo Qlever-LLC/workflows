@@ -14,6 +14,8 @@
 
 name: Build and publish npm package
 
+permissions: read-all
+
 on:
   workflow_call:
     inputs:
@@ -33,6 +35,11 @@ on:
         required: false
         # FIXME: Switch to latest once OADA is updated
         default: edge
+      services:
+        description: JSON of services to build
+        type: string
+        required: false
+        default: "{}"
       publish:
         description: Publish releases as an npm package
         type: boolean
@@ -89,7 +96,7 @@ jobs:
           }));
       - id: node
         run: |
-          echo ::set-output name=services::$(cat ./services.json)
+          echo services=$(cat ./services.json) >> "$GITHUB_OUTPUT"
 
   build:
     name: Build
@@ -129,7 +136,7 @@ jobs:
           OADA_VERSION: ${{ inputs.oada_version || null }}
         volumes:
           # Needed for DooD
-          - "/var/run/docker.sock:/var/run/docker.sock"
+          - /var/run/docker.sock:/var/run/docker.sock
         ports:
           - "80"
     steps:
@@ -149,7 +156,7 @@ jobs:
   test-no-oada:
     if: ${{ !inputs.oada }}
     name: Run tests in node ${{ matrix.node }} on ${{ matrix.os }}
-    services: {}
+    #services: {}
     needs:
       - build
     strategy:
@@ -170,7 +177,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - env:
-          DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
+          #DOMAIN: http://localhost:${{ job.services.oada.ports['80'] }}
           #DOMAIN: http://oada
           TOKEN: god
         run: yarn test
@@ -200,7 +207,7 @@ jobs:
       - test-no-oada
     if: ${{ !failure() }}
     outputs:
-      pass: ${{ needs.test.status == 'success' || needs.test-no-oada.status == 'success' }}
+      pass: ${{ needs.test.result == 'success' || needs.test-no-oada.result == 'success' }}
     steps:
       - run: echo "${{ toJSON(needs) }}"
 
@@ -226,7 +233,7 @@ jobs:
         run: |
           npm publish \
             --access ${{ inputs.access }} \
-            --tag ${{ steps.refs.output.prerelease || 'latest' }}
+            --tag ${{ needs.setup.outputs.prerelease || 'latest' }}
 
   # TODO: Combine this job with publish job?
   publish-github:
@@ -251,4 +258,4 @@ jobs:
         run: |
           npm publish \
             --access ${{ inputs.access }} \
-            --tag ${{ steps.refs.output.prerelease || 'latest' }}
+            --tag ${{ needs.setup.outputs.prerelease || 'latest' }}

@@ -14,6 +14,8 @@
 
 name: Build and push docker image
 
+permissions: read-all
+
 on:
   workflow_call:
     inputs:
@@ -112,8 +114,8 @@ jobs:
             DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.dockerhub_repo }}/g')
           fi
 
-          echo ::set-output name=dockerhub::${DOCKER_IMAGE}
-          echo ::set-output name=ghcr::${GHCR_IMAGE}
+          echo dockerhub="${DOCKER_IMAGE}" >> "$GITHUB_OUTPUT"
+          echo ghcr="${GHCR_IMAGE}" >> "$GITHUB_OUTPUT"
 
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -235,14 +237,14 @@ jobs:
             fi
           fi
 
-          echo ::set-output name=tag::${TAG}
+          echo tag="${TAG}" >> "$GITHUB_OUTPUT"
           # Allow overriding Snyk org if different from GitHub?
           if [[ "${{ secrets.snyk_org }}" ]]; then
-            echo ::set-output name=org::${{ secrets.snyk_org }}
+            echo org="${{ secrets.snyk_org }}" >> "$GITHUB_OUTPUT"
           else
-            echo ::set-output name=org::${OWNER}
+            echo org="${OWNER}" >> "$GITHUB_OUTPUT"
           fi
-          echo ::set-output name=cur::${GHCR_IMAGE}:sha-${GITHUB_SHA::8}
+          echo cur="${GHCR_IMAGE}:sha-${GITHUB_SHA::8}" >> "$GITHUB_OUTPUT"
 
       - name: Monitor Service image with Snyk
         uses: snyk/actions/docker@master
