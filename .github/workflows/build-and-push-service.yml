@@ -263,6 +263,10 @@ jobs:
           image: ${{ steps.tag.outputs.tag }}
           args: --org=${{ steps.tag.outputs.org }} --file=./Dockerfile
 
+      - name: Replace security-severity undefined for license-related findings
+        run: |
+          sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' snyk.sarif
+
       - name: Secure Code Warrior
         uses: SecureCodeWarrior/github-action-add-sarif-contextual-training@v1
         with:
