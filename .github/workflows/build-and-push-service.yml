@@ -14,8 +14,7 @@
 
 name: Build and push docker image
 
-permissions:
-  id-token: read
+permissions: read-all
 
 on:
   workflow_call:
