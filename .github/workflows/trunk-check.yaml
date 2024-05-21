@@ -1,15 +1,20 @@
 name: Trunk Check
-
-permissions: read-all
-
 on:
   push:
   pull_request:
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions: read-all
 
 jobs:
   trunk_check:
-    name: Trunk Check Annotate
+    name: Trunk Check Runner
     runs-on: ubuntu-latest
+    permissions:
+      checks: write # For trunk to post annotations
+      contents: read # For repo checkout
 
     steps:
       - name: Checkout
@@ -17,5 +22,3 @@ jobs:
 
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
-        with:
-          post-annotations: true # only for fork PRs
