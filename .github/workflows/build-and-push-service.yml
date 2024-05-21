@@ -14,7 +14,20 @@
 
 name: Build and push docker image
 
-permissions: read-all
+permissions:
+  packages: write
+  actions: read
+  checks: read
+  contents: read
+  deployments: read
+  id-token: write
+  issues: read
+  discussions: read
+  pages: read
+  pull-requests: read
+  repository-projects: read
+  security-events: read
+  statuses: read
 
 on:
   workflow_call:
@@ -69,9 +82,6 @@ jobs:
     name: Build and push docker Image
     needs:
       - setup
-
-    permissions:
-      packages: write
 
     runs-on: ubuntu-latest
 
