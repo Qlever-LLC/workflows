@@ -207,7 +207,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
-      - run: yarn install --immutable
+      - run: yarn install
       - run: |
           yarn tsc \
             --target esnext \
