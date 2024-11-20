@@ -76,7 +76,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
       - name: stuff
         shell: node {0}
         run: |
@@ -208,6 +207,7 @@ jobs:
         with:
           node-version: 20
           cache: yarn
+      - run: yarn install --immutable
       - run: |
           yarn tsc \
             --target esnext \
