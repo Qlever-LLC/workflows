@@ -98,7 +98,7 @@ jobs:
           }));
       - id: node
         run: |
-          echo services=$(cat ./services.json) >> "$GITHUB_OUTPUT"
+          echo services="$(cat ./services.json)" >> "$GITHUB_OUTPUT"
 
   build:
     name: Build

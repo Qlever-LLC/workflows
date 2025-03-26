@@ -122,7 +122,9 @@ jobs:
           DOCKER_IMAGE=$(echo ${{ inputs.service }} | tr '[:upper:]' '[:lower:]')
           # Name on GHCR
           GHCR_IMAGE=ghcr.io/${DOCKER_IMAGE}
-          # Allow overriding DockerHub repo if different from slug?
+          # Not actually a constant
+          # shellcheck disable=SC2078
+          # TODO: Allow overriding DockerHub repo if different from slug?
           if [[ "${{ secrets.dockerhub_repo }}" ]]; then
             DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.dockerhub_repo }}/g')
           fi
@@ -236,12 +238,16 @@ jobs:
           DOCKER_IMAGE=$(echo ${{ inputs.service }} | tr '[:upper:]' '[:lower:]')
           # Name on GHCR
           GHCR_IMAGE=ghcr.io/${DOCKER_IMAGE}
-          # Allow overriding DockerHub repo if different from slug?
+          # Not actually a constant
+          # shellcheck disable=SC2078
+          # TODO: Allow overriding DockerHub repo if different from slug?
           if [[ "${{ secrets.dockerhub_repo }}" ]]; then
             DOCKER_IMAGE=$(echo ${{ inputs.service }} | sed 's/${{ github.repository_owner }}/${{ secrets.dockerhub_repo }}/g')
           fi
 
           TAG="${GHCR_IMAGE}:edge"
+          # Not actually a constant
+          # shellcheck disable=SC2078
           if [[ "${{ needs.setup.outputs.release }}" ]]; then
             if [[ "${{ needs.setup.outputs.prerelease }}" ]]; then
               TAG="${GHCR_IMAGE}:edge"
@@ -251,7 +257,9 @@ jobs:
           fi
 
           echo tag="${TAG}" >> "$GITHUB_OUTPUT"
-          # Allow overriding Snyk org if different from GitHub?
+          # Not actually a constant
+          # shellcheck disable=SC2078
+          # TODO: Allow overriding Snyk org if different from GitHub?
           if [[ "${{ secrets.snyk_org }}" ]]; then
             echo org="${{ secrets.snyk_org }}" >> "$GITHUB_OUTPUT"
           else
