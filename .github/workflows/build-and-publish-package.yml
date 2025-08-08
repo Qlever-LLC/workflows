@@ -145,7 +145,7 @@ jobs:
         ports:
           - "80"
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: built
       - name: Enable Corepack
@@ -178,7 +178,7 @@ jobs:
           - 20
     runs-on: ${{ matrix.os}}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: built
       - name: Enable Corepack
@@ -199,7 +199,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: built
       - name: Enable Corepack
@@ -237,7 +237,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: built
       - name: Enable Corepack
@@ -264,7 +264,7 @@ jobs:
     if: ${{ inputs.publish && needs.setup.outputs.release && !failure() }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           name: built
       - name: Enable Corepack
