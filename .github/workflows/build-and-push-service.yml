@@ -106,7 +106,7 @@ jobs:
 
       - name: Cache docker layers
         if: ${{ !env.ACT }} # Awaiting ACT version after 0.2.17 for this feature
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache
         with:
           path: /tmp/.buildx-cache
