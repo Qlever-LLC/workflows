@@ -233,6 +233,8 @@ jobs:
       - build
       - check
       - tests
+    permissions:
+      packages: write
     if: ${{ inputs.publish && needs.setup.outputs.release && !failure() }}
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -261,6 +263,8 @@ jobs:
       - build
       - check
       - tests
+    permissions:
+      packages: write
     if: ${{ inputs.publish && needs.setup.outputs.release && !failure() }}
     runs-on: ubuntu-latest
     steps:
